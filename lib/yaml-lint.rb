@@ -76,8 +76,11 @@ class YamlLint
         # check count of whitespaces
         raise "Odd number of whitespaces in line #{index+1} near #{line}" if line[/\A */].size.odd?
         # check quotes
-        raise "Missing single quote in line #{index+1} near #{line}" if line.scan(/'+/).size.odd?
-        raise "Missing double quote in line #{index+1} near #{line}" if line.scan(/"+/).size.odd?
+        splits = line.split(" ")
+        splits.each do |sline|
+          raise "Missing single quote in line #{index+1} near #{line}" if sline.scan(/'+/).size.odd?
+          raise "Missing double quote in line #{index+1} near #{line}" if sline.scan(/"+/).size.odd?
+        end
       end
     rescue Exception => err
       error "File : #{file}, error: #{err}"
