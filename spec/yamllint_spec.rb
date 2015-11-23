@@ -42,7 +42,6 @@ describe 'YamlLint' do
   end
 
   describe 'with different file extensions' do
-
     it 'is okay with known extensions' do
       lint = YamlLint.new(FIXTURES_PATH + 'good.yaml')
       expect(lint.do_lint).to eq 0
@@ -58,6 +57,47 @@ describe 'YamlLint' do
     it 'is okay with an unknown extensions when the extension is not checked' do
       lint = YamlLint.new(FIXTURES_PATH + 'good.lmay', {:nocheckfileext => true})
       expect(lint.do_lint).to eq 0
+    end
+  end
+
+  describe 'the indentation' do
+    it 'is okay with even number of whitespaces' do
+      lint = YamlLint.new(FIXTURES_PATH + 'good.yaml')
+      expect(lint.do_lint).to eq 0
+    end
+
+    it 'is not okay with odd number of whitespaces' do
+      lint = YamlLint.new(FIXTURES_PATH + 'bad_indentation.yaml')
+      expect(lint.do_lint).to eq 1
+    end
+  end
+
+  describe 'the quotes' do
+    it 'is okay with single quotes' do
+      lint = YamlLint.new(FIXTURES_PATH + 'good_single_quotes.yaml')
+      expect(lint.do_lint).to eq 0
+    end
+
+    it 'is okay with double quotes' do
+      lint = YamlLint.new(FIXTURES_PATH + 'good_double_quotes.yaml')
+      expect(lint.do_lint).to eq 0
+    end
+
+    it 'is not okay with just one single quote per element, even if there is a even count of quotes per line' do
+      lint = YamlLint.new(FIXTURES_PATH + 'bad_single_quote_even.yaml')
+      expect(lint.do_lint).to eq 1
+    end
+
+    it 'is not okay with just one single quote per element, if there is a add count of quotes per line' do
+      lint = YamlLint.new(FIXTURES_PATH + 'bad_single_quote_odd.yaml')
+      expect(lint.do_lint).to eq 1
+    end
+  end
+
+  describe 'the colon' do
+    it 'is not okay with a colon before a quote' do
+      lint = YamlLint.new(FIXTURES_PATH + 'bad_colon.yaml')
+      expect(lint.do_lint).to eq 1
     end
   end
 end
