@@ -13,7 +13,7 @@ What it checks
 
 * correct indentation
 * OK: "key": (or single quotes)
-* NOK: "key: (or single quotes)
+* NOK: "key:" (or single quotes)
 * OK: key: 'value' (or double quotes)
 * NOK: key: value' (or double quotes)
 
