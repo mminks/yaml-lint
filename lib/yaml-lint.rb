@@ -69,7 +69,16 @@ class YamlLint
       return 1
     end
     begin
+      # load yaml file and see if there is a basic error
       YAML.load_file(file)
+      File.readlines(file).each_with_index do |line,index|
+        line = line.gsub!(/\n/,"")
+        # check count of whitespaces
+        raise "Odd number of whitespaces in line #{index+1} near #{line}" if line[/\A */].size.odd?
+        # check quotes
+        raise "Missing single quote in line #{index+1} near #{line}" if line.scan(/'+/).size.odd?
+        raise "Missing double quote in line #{index+1} near #{line}" if line.scan(/"+/).size.odd?
+      end
     rescue Exception => err
       error "File : #{file}, error: #{err}"
       return 1
