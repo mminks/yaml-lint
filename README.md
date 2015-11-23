@@ -5,8 +5,17 @@
 yaml-lint
 =========
 
-Simple yaml check tool. yaml-lint will simply try to load the YAML file with the
-built-in Ruby yaml library.
+Simple yaml check tool that checks some more things than the original version. yaml-lint still tries to load the YAML file with the
+built-in Ruby yaml library and performs some additional checks afterwards.
+
+What it checks
+--------------
+
+* correct indentation
+* OK: "key": (or single quotes)
+* NOK: "key: (or single quotes)
+* OK: key: 'value' (or double quotes)
+* NOK: key: value' (or double quotes)
 
 Install
 -------
