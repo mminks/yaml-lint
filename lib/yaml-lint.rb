@@ -72,7 +72,7 @@ class YamlLint
       # load yaml file and see if there is a basic error
       YAML.load_file(file)
       File.readlines(file).each_with_index do |line,index|
-        line = line.gsub!(/\n/,"")
+        line = line.gsub(/\n/,"")
         # check count of whitespaces
         raise "Odd number of whitespaces in line #{index+1} near #{line}" if line[/\A */].size.odd?
         # check quotes
